@@ -14,6 +14,7 @@ pub struct Post {
 #[derive(Debug, Insertable)]
 #[table_name = "posts"]
 pub struct InsertablePost {
+    pub post_uuid: Uuid,
     pub title: String,
     pub body: String,
     pub published: bool,
@@ -31,7 +32,7 @@ impl From<PostData> for InsertablePost {
         let PostData { title, body, .. } = post_data;
 
         Self {
-            // post_uuid: Uuid::new_v4(),
+            post_uuid: Uuid::new_v4(),
             title,
             body,
             published: false,

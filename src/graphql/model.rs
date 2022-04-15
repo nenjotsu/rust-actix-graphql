@@ -75,12 +75,15 @@ pub(crate) struct Mutation;
 
 #[juniper::object(Context = Context)]
 impl Mutation {
+    // user
     pub fn register(context: &Context, data: UserData) -> ServiceResult<SlimUser> {
         use crate::user::service::register::create_user;
         let conn: &PgConnection = &context.db;
 
         Ok(create_user(data, conn)?)
     }
+
+    // post
     pub fn createPost(context: &Context, data: PostData) -> ServiceResult<SlimPost> {
         use crate::post::service::create::create_post;
         let conn: &PgConnection = &context.db;
@@ -92,6 +95,12 @@ impl Mutation {
         let conn: &PgConnection = &context.db;
 
         Ok(update_post(id, data, conn)?)
+    }
+    pub fn deletePost(context: &Context, id: i32) -> ServiceResult<Post> {
+        use crate::post::service::delete::delete_post;
+        let conn: &PgConnection = &context.db;
+
+        Ok(delete_post(id, conn)?)
     }
 }
 

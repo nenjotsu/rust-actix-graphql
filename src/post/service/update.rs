@@ -1,12 +1,6 @@
 use crate::errors::ServiceResult;
 use crate::post::model::{InsertablePost, Post, PostData, SlimPost};
-// use actix_web::web;
 use diesel::prelude::*;
-
-// pub fn update(id: i32, post_data: PostData, pool: web::Data<Pool>) -> ServiceResult<SlimPost> {
-//     let conn = &db_connection(&pool)?;
-//     update_post(id, post_data, conn)
-// }
 
 pub fn update_post(
     post_id: i32,
