@@ -42,8 +42,10 @@ impl From<PostData> for InsertablePost {
 
 #[derive(Debug, Serialize, Deserialize, Clone, juniper::GraphQLObject)]
 pub struct SlimPost {
+    pub id: i32,
     pub post_uuid: Uuid,
     pub title: String,
+    pub body: String,
 }
 
 #[derive(Shrinkwrap, Clone, Default)]
@@ -52,9 +54,18 @@ pub struct SinglePost(pub Option<SlimPost>);
 impl From<Post> for SlimPost {
     fn from(post: Post) -> Self {
         let Post {
-            post_uuid, title, ..
+            id,
+            post_uuid,
+            title,
+            body,
+            ..
         } = post;
 
-        Self { post_uuid, title }
+        Self {
+            id,
+            post_uuid,
+            title,
+            body,
+        }
     }
 }
