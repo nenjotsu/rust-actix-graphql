@@ -6,7 +6,7 @@ const HttpStatus = require('http-status-codes');
 const apiPort = process.env.PORT || 3000;
 const url = `http://localhost:${apiPort}`;
 
-jest.setTimeout(500);
+jest.setTimeout(1000);
 
 const name = 'my name';
 const email = 'email1@nowhere.com';
