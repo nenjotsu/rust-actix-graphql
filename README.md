@@ -28,6 +28,32 @@ Statistics        Avg      Stdev        Max
     1xx - 0, 2xx - 10000000, 3xx - 0, 4xx - 0, 5xx - 0
     others - 0
   Throughput:    20.75MB/s
+
+
+bombardier -c 125 -d 30s http://localhost:8000/user/me -k --method=GET -H "Content-Type: application/json" -H "Cookie: auth=<YOUR_TOKEN>"
+Bombarding http://localhost:8000/user/me for 30s using 125 connection(s)
+[=========================================================================================================================================================================================] 30s
+Done!
+Statistics        Avg      Stdev        Max
+  Reqs/sec      7220.99     902.95   11296.18
+  Latency       17.31ms     2.66ms    90.21ms
+  HTTP codes:
+    1xx - 0, 2xx - 216685, 3xx - 0, 4xx - 0, 5xx - 0
+    others - 0
+  Throughput:     3.36MB/s
+
+bombardier -c 125 -d 30s http://127.0.0.1:8000/user/login -k --timeout=2s -b '{ "email": "nenjotech@gmail.com", "password": "<YOURPASSWORD>" }' --method=POST -H "Content-Type: application/json"
+
+wrk -t4 -c125 -d60s -s perf.lua http://127.0.0.1:8000/graphql
+Running 1m test @ http://127.0.0.1:8000/graphql
+  4 threads and 125 connections
+  Thread Stats   Avg      Stdev     Max   +/- Stdev
+    Latency   328.88ms   56.04ms 555.59ms   81.67%
+    Req/Sec    96.15     49.97   272.00     63.67%
+  22577 requests in 1.00m, 5.94MB read
+Requests/sec:    375.72
+Transfer/sec:    101.27KB
+
 ```
 
 ## Collection of major crates used in Canduma
@@ -61,6 +87,10 @@ cp .env.example .env
 diesel setup --database-url='postgres://postgres:canduma@localhost/canduma'
 diesel migration run
 cargo run
+
+// or 
+// cargo install cargo-watch
+cargo watch -c -w src -x run
 ```
 
 ## Test the GraphQL API with Insomnia

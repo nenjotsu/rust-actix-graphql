@@ -3,6 +3,7 @@
 .idea/
 node_modules/
 python_modules/
+db-data/
 
 # ---> Node
 # Logs

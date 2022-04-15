@@ -1,0 +1,7 @@
+CREATE TABLE posts (
+  id SERIAL PRIMARY KEY,
+  post_uuid UUID NOT NULL,
+  title VARCHAR NOT NULL,
+  body TEXT NOT NULL,
+  published BOOLEAN NOT NULL DEFAULT 'f'
+)

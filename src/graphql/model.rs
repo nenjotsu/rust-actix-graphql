@@ -2,6 +2,8 @@ use crate::cli_args::Opt;
 use crate::database::PooledConnection;
 use crate::errors::ServiceResult;
 use crate::jwt::model::{DecodedToken, Token};
+use crate::post::model::{Post, PostData, SlimPost};
+use crate::post::service as post;
 use crate::user::model::{LoggedUser, SlimUser, User, UserData};
 use crate::user::service as user;
 use crate::user::service::token::ClaimsResponse;
@@ -54,6 +56,19 @@ impl QueryRoot {
     pub fn decode_token(context: &Context) -> ServiceResult<&ClaimsResponse> {
         user::token::decode(&context)
     }
+
+    pub fn posts(
+        context: &Context,
+        limit: Option<i32>,
+        offset: Option<i32>,
+        keyword: Option<String>,
+    ) -> ServiceResult<Vec<Post>> {
+        let limit: i32 = limit.unwrap_or(100);
+        let offset: i32 = offset.unwrap_or(0);
+        let keyword: String = keyword.unwrap_or("".to_string());
+
+        post::list::find_all_posts(&context, limit, offset, keyword)
+    }
 }
 
 pub(crate) struct Mutation;
@@ -65,6 +80,18 @@ impl Mutation {
         let conn: &PgConnection = &context.db;
 
         Ok(create_user(data, conn)?)
+    }
+    pub fn createPost(context: &Context, data: PostData) -> ServiceResult<SlimPost> {
+        use crate::post::service::create::create_post;
+        let conn: &PgConnection = &context.db;
+
+        Ok(create_post(data, conn)?)
+    }
+    pub fn updatePost(context: &Context, id: i32, data: PostData) -> ServiceResult<SlimPost> {
+        use crate::post::service::update::update_post;
+        let conn: &PgConnection = &context.db;
+
+        Ok(update_post(id, data, conn)?)
     }
 }
 

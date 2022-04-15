@@ -1,5 +1,5 @@
 [package]
-name = "canduma"
+name = "rust-actix-graphql"
 version = "0.2.0"
 authors = [
     "Julien Lenne <contact.lenne@gmail.com>",
